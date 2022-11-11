@@ -15,7 +15,9 @@ class HomeController extends AbstractController
      */
     public function index(CallApiService $api): Response
     {
-        dd($api->fetchDataApi());
+        //dd($api->fetchDataCharacterApi(1));
+        //dd($api->fetchDataLocationApi(1));
+        //dd($api->fetchDataEpisodeApi(1));
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
         ]);

@@ -13,11 +13,49 @@ class CallApiService
         $this->client = $client;
     }
 
-    public function fetchDataApi($id = ''): array
+    public function fetchDataCharacterApi($id = ''): array
     {
         $response = $this->client->request(
             'GET',
             'https://rickandmortyapi.com/api/character/' . $id
+        );
+
+        $statusCode = $response->getStatusCode();
+        // $statusCode = 200
+        $contentType = $response->getHeaders()['content-type'][0];
+        // $contentType = 'application/json'
+        $content = $response->getContent();
+        // $content = '{"id":521583, "name":"symfony-docs", ...}'
+        $content = $response->toArray();
+        // $content = ['id' => 521583, 'name' => 'symfony-docs', ...]
+
+        return $content;
+    }
+
+    public function fetchDataLocationApi($id = ''): array
+    {
+        $response = $this->client->request(
+            'GET',
+            'https://rickandmortyapi.com/api/location/' . $id
+        );
+
+        $statusCode = $response->getStatusCode();
+        // $statusCode = 200
+        $contentType = $response->getHeaders()['content-type'][0];
+        // $contentType = 'application/json'
+        $content = $response->getContent();
+        // $content = '{"id":521583, "name":"symfony-docs", ...}'
+        $content = $response->toArray();
+        // $content = ['id' => 521583, 'name' => 'symfony-docs', ...]
+
+        return $content;
+    }
+
+    public function fetchDataEpisodeApi($id = ''): array
+    {
+        $response = $this->client->request(
+            'GET',
+            'https://rickandmortyapi.com/api/episode/' . $id
         );
 
         $statusCode = $response->getStatusCode();
