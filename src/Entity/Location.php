@@ -32,6 +32,16 @@ class Location
      */
     private $dimension;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Character::class, inversedBy="origin")
+     */
+    private $originCharacter;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Character::class, inversedBy="location")
+     */
+    private $locationCharacter;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +79,30 @@ class Location
     public function setDimension(?string $dimension): self
     {
         $this->dimension = $dimension;
+
+        return $this;
+    }
+
+    public function getOriginCharacter(): ?Character
+    {
+        return $this->originCharacter;
+    }
+
+    public function setOriginCharacter(?Character $originCharacter): self
+    {
+        $this->originCharacter = $originCharacter;
+
+        return $this;
+    }
+
+    public function getLocationCharacter(): ?Character
+    {
+        return $this->locationCharacter;
+    }
+
+    public function setLocationCharacter(?Character $locationCharacter): self
+    {
+        $this->locationCharacter = $locationCharacter;
 
         return $this;
     }
