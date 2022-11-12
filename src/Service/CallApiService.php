@@ -17,7 +17,7 @@ class CallApiService
     {
         $response = $this->client->request(
             'GET',
-            'https://rickandmortyapi.com/api/character/' . $id
+            'https://rickandmortyapi.com/api/character?page=' . $id
         );
 
         $statusCode = $response->getStatusCode();
@@ -36,7 +36,7 @@ class CallApiService
     {
         $response = $this->client->request(
             'GET',
-            'https://rickandmortyapi.com/api/location/' . $id
+            'https://rickandmortyapi.com/api/location?page=' . $id
         );
 
         $statusCode = $response->getStatusCode();
@@ -55,7 +55,7 @@ class CallApiService
     {
         $response = $this->client->request(
             'GET',
-            'https://rickandmortyapi.com/api/episode/' . $id
+            'https://rickandmortyapi.com/api/episode?page=' . $id
         );
 
         $statusCode = $response->getStatusCode();

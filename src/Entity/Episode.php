@@ -30,13 +30,18 @@ class Episode
     private $air_date;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Character::class, mappedBy="episode")
+     * @ORM\Column(type="string", length=255)
      */
-    private $characters;
+    private $episode;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Person::class, mappedBy="episode")
+     */
+    private $person;
 
     public function __construct()
     {
-        $this->characters = new ArrayCollection();
+        $this->person = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -68,28 +73,40 @@ class Episode
         return $this;
     }
 
-    /**
-     * @return Collection<int, Character>
-     */
-    public function getCharacters(): Collection
+    public function getEpisode(): ?string
     {
-        return $this->characters;
+        return $this->episode;
     }
 
-    public function addCharacter(Character $character): self
+    public function setEpisode(string $episode): self
     {
-        if (!$this->characters->contains($character)) {
-            $this->characters[] = $character;
-            $character->addEpisode($this);
+        $this->episode = $episode;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Person>
+     */
+    public function getPerson(): Collection
+    {
+        return $this->person;
+    }
+
+    public function addPerson(Person $person): self
+    {
+        if (!$this->person->contains($person)) {
+            $this->person[] = $person;
+            $person->addEpisode($this);
         }
 
         return $this;
     }
 
-    public function removeCharacter(Character $character): self
+    public function removePerson(Person $person): self
     {
-        if ($this->characters->removeElement($character)) {
-            $character->removeEpisode($this);
+        if ($this->person->removeElement($person)) {
+            $person->removeEpisode($this);
         }
 
         return $this;

@@ -11,15 +11,15 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class HomeController extends AbstractController
 {
     /**
-     * @Route("/", name="app_home")
+     * @Route("/{id}"), name="app_home", methods={"GET, POST"})
      */
-    public function index(CallApiService $api): Response
+    public function indexnext(int $id, CallApiService $api): Response
     {
-        //dd($api->fetchDataCharacterApi(1));
-        //dd($api->fetchDataLocationApi(1));
-        //dd($api->fetchDataEpisodeApi(1));
+        $apiCharacter = $api->fetchDataCharacterApi($id);
+        $characters = $apiCharacter['results'];
+
         return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
+            'characters' => $characters
         ]);
     }
 }

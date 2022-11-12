@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\CharacterRepository;
+use App\Repository\PersonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=CharacterRepository::class)
+ * @ORM\Entity(repositoryClass=PersonRepository::class)
  */
-class Character
+class Person
 {
     /**
      * @ORM\Id
@@ -25,7 +25,7 @@ class Character
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $status;
 
@@ -40,27 +40,32 @@ class Character
     private $type;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $gender;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $image;
 
     /**
-     * @ORM\OneToMany(targetEntity=Location::class, mappedBy="originCharacter")
+     * @ORM\OneToMany(targetEntity=Location::class, mappedBy="originPerson")
      */
     private $origin;
 
     /**
-     * @ORM\OneToMany(targetEntity=Location::class, mappedBy="locationCharacter")
+     * @ORM\OneToMany(targetEntity=Location::class, mappedBy="locationPerson")
      */
     private $location;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Episode::class, inversedBy="characters")
+     * @ORM\ManyToMany(targetEntity=Episode::class, inversedBy="person")
      */
     private $episode;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $slug;
 
@@ -68,7 +73,6 @@ class Character
     {
         $this->origin = new ArrayCollection();
         $this->location = new ArrayCollection();
-        $this->resident = new ArrayCollection();
         $this->episode = new ArrayCollection();
     }
 
@@ -94,7 +98,7 @@ class Character
         return $this->status;
     }
 
-    public function setStatus(string $status): self
+    public function setStatus(?string $status): self
     {
         $this->status = $status;
 
@@ -125,6 +129,18 @@ class Character
         return $this;
     }
 
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?string $gender): self
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
     public function getImage(): ?string
     {
         return $this->image;
@@ -149,7 +165,7 @@ class Character
     {
         if (!$this->origin->contains($origin)) {
             $this->origin[] = $origin;
-            $origin->setOriginCharacter($this);
+            $origin->setOriginPerson($this);
         }
 
         return $this;
@@ -159,8 +175,8 @@ class Character
     {
         if ($this->origin->removeElement($origin)) {
             // set the owning side to null (unless already changed)
-            if ($origin->getOriginCharacter() === $this) {
-                $origin->setOriginCharacter(null);
+            if ($origin->getOriginPerson() === $this) {
+                $origin->setOriginPerson(null);
             }
         }
 
@@ -179,7 +195,7 @@ class Character
     {
         if (!$this->location->contains($location)) {
             $this->location[] = $location;
-            $location->setLocationCharacter($this);
+            $location->setLocationPerson($this);
         }
 
         return $this;
@@ -189,14 +205,14 @@ class Character
     {
         if ($this->location->removeElement($location)) {
             // set the owning side to null (unless already changed)
-            if ($location->getLocationCharacter() === $this) {
-                $location->setLocationCharacter(null);
+            if ($location->getLocationPerson() === $this) {
+                $location->setLocationPerson(null);
             }
         }
 
         return $this;
     }
-    
+
     /**
      * @return Collection<int, Episode>
      */
@@ -226,7 +242,7 @@ class Character
         return $this->slug;
     }
 
-    public function setSlug(?string $slug): self
+    public function setSlug(string $slug): self
     {
         $this->slug = $slug;
 

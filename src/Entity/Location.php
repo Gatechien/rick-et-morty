@@ -33,14 +33,14 @@ class Location
     private $dimension;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Character::class, inversedBy="origin")
+     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="origin")
      */
-    private $originCharacter;
+    private $originPerson;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Character::class, inversedBy="location")
+     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="location")
      */
-    private $locationCharacter;
+    private $locationPerson;
 
     public function getId(): ?int
     {
@@ -83,26 +83,26 @@ class Location
         return $this;
     }
 
-    public function getOriginCharacter(): ?Character
+    public function getOriginPerson(): ?Person
     {
-        return $this->originCharacter;
+        return $this->originPerson;
     }
 
-    public function setOriginCharacter(?Character $originCharacter): self
+    public function setOriginPerson(?Person $originPerson): self
     {
-        $this->originCharacter = $originCharacter;
+        $this->originPerson = $originPerson;
 
         return $this;
     }
 
-    public function getLocationCharacter(): ?Character
+    public function getLocationPerson(): ?Person
     {
-        return $this->locationCharacter;
+        return $this->locationPerson;
     }
 
-    public function setLocationCharacter(?Character $locationCharacter): self
+    public function setLocationPerson(?Person $locationPerson): self
     {
-        $this->locationCharacter = $locationCharacter;
+        $this->locationPerson = $locationPerson;
 
         return $this;
     }
