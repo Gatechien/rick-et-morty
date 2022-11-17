@@ -50,14 +50,9 @@ class Person
     private $image;
 
     /**
-     * @ORM\OneToMany(targetEntity=Location::class, mappedBy="originPerson")
+     * @ORM\Column(type="string", length=255)
      */
-    private $origin;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Location::class, mappedBy="locationPerson")
-     */
-    private $location;
+    private $slug;
 
     /**
      * @ORM\ManyToMany(targetEntity=Episode::class, inversedBy="person")
@@ -65,14 +60,27 @@ class Person
     private $episode;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity=Location::class, inversedBy="originPerson")
      */
-    private $slug;
+    private $origin;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Location::class, inversedBy="locationPerson")
+     */
+    private $location;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $originName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $locationName;
 
     public function __construct()
     {
-        $this->origin = new ArrayCollection();
-        $this->location = new ArrayCollection();
         $this->episode = new ArrayCollection();
     }
 
@@ -153,62 +161,14 @@ class Person
         return $this;
     }
 
-    /**
-     * @return Collection<int, Location>
-     */
-    public function getOrigin(): Collection
+    public function getSlug(): ?string
     {
-        return $this->origin;
+        return $this->slug;
     }
 
-    public function addOrigin(Location $origin): self
+    public function setSlug(string $slug): self
     {
-        if (!$this->origin->contains($origin)) {
-            $this->origin[] = $origin;
-            $origin->setOriginPerson($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrigin(Location $origin): self
-    {
-        if ($this->origin->removeElement($origin)) {
-            // set the owning side to null (unless already changed)
-            if ($origin->getOriginPerson() === $this) {
-                $origin->setOriginPerson(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Location>
-     */
-    public function getLocation(): Collection
-    {
-        return $this->location;
-    }
-
-    public function addLocation(Location $location): self
-    {
-        if (!$this->location->contains($location)) {
-            $this->location[] = $location;
-            $location->setLocationPerson($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLocation(Location $location): self
-    {
-        if ($this->location->removeElement($location)) {
-            // set the owning side to null (unless already changed)
-            if ($location->getLocationPerson() === $this) {
-                $location->setLocationPerson(null);
-            }
-        }
+        $this->slug = $slug;
 
         return $this;
     }
@@ -237,14 +197,50 @@ class Person
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getOrigin(): ?Location
     {
-        return $this->slug;
+        return $this->origin;
     }
 
-    public function setSlug(string $slug): self
+    public function setOrigin(?Location $origin): self
     {
-        $this->slug = $slug;
+        $this->origin = $origin;
+
+        return $this;
+    }
+
+    public function getLocation(): ?Location
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?Location $location): self
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
+    public function getOriginName(): ?string
+    {
+        return $this->originName;
+    }
+
+    public function setOriginName(?string $originName): self
+    {
+        $this->originName = $originName;
+
+        return $this;
+    }
+
+    public function getLocationName(): ?string
+    {
+        return $this->locationName;
+    }
+
+    public function setLocationName(?string $locationName): self
+    {
+        $this->locationName = $locationName;
 
         return $this;
     }

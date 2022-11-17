@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\LocationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -33,14 +35,20 @@ class Location
     private $dimension;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="origin")
+     * @ORM\OneToMany(targetEntity=Person::class, mappedBy="origin")
      */
     private $originPerson;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="location")
+     * @ORM\OneToMany(targetEntity=Person::class, mappedBy="location")
      */
     private $locationPerson;
+
+    public function __construct()
+    {
+        $this->originPerson = new ArrayCollection();
+        $this->locationPerson = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -83,26 +91,62 @@ class Location
         return $this;
     }
 
-    public function getOriginPerson(): ?Person
+    /**
+     * @return Collection<int, Person>
+     */
+    public function getOriginPerson(): Collection
     {
         return $this->originPerson;
     }
 
-    public function setOriginPerson(?Person $originPerson): self
+    public function addOriginPerson(Person $originPerson): self
     {
-        $this->originPerson = $originPerson;
+        if (!$this->originPerson->contains($originPerson)) {
+            $this->originPerson[] = $originPerson;
+            $originPerson->setOrigin($this);
+        }
 
         return $this;
     }
 
-    public function getLocationPerson(): ?Person
+    public function removeOriginPerson(Person $originPerson): self
+    {
+        if ($this->originPerson->removeElement($originPerson)) {
+            // set the owning side to null (unless already changed)
+            if ($originPerson->getOrigin() === $this) {
+                $originPerson->setOrigin(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Person>
+     */
+    public function getLocationPerson(): Collection
     {
         return $this->locationPerson;
     }
 
-    public function setLocationPerson(?Person $locationPerson): self
+    public function addLocationPerson(Person $locationPerson): self
     {
-        $this->locationPerson = $locationPerson;
+        if (!$this->locationPerson->contains($locationPerson)) {
+            $this->locationPerson[] = $locationPerson;
+            $locationPerson->setLocation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLocationPerson(Person $locationPerson): self
+    {
+        if ($this->locationPerson->removeElement($locationPerson)) {
+            // set the owning side to null (unless already changed)
+            if ($locationPerson->getLocation() === $this) {
+                $locationPerson->setLocation(null);
+            }
+        }
 
         return $this;
     }

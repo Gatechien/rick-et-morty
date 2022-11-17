@@ -29,9 +29,9 @@ class AppFixtures extends Fixture
     {
         $this->connection->executeQuery('SET foreign_key_checks = 0');
 
-        $this->connection->executeQuery('TRUNCATE TABLE person');
         $this->connection->executeQuery('TRUNCATE TABLE episode');
         $this->connection->executeQuery('TRUNCATE TABLE location');
+        $this->connection->executeQuery('TRUNCATE TABLE person');
         $this->connection->executeQuery('TRUNCATE TABLE person_episode');
 
         $this->connection->executeQuery('SET foreign_key_checks = 1');
@@ -48,12 +48,12 @@ class AppFixtures extends Fixture
         # Character
         $personsList = [];
 
-        for ($i=1; $i <= 42 ; $i++) { 
-
+        for ($i=1; $i <= 42 ; $i++) 
+        {
             $personApi = $this->api->fetchDataCharacterApi($i);
 
-            foreach ($personApi['results'] as $value) {
-    
+            foreach ($personApi['results'] as $value) 
+            {
                 $person = new Person();
                 $person->setName($value['name']);
                 $person->setStatus($value['status']);
@@ -62,6 +62,8 @@ class AppFixtures extends Fixture
                 $person->setGender($value['gender']);
                 $person->setImage($value['image']);
                 $person->setSlug($this->slugger->slug($value['name'])->lower());
+                $person->setOriginName($value['origin']['name']);
+                $person->setLocationName($value['location']['name']);
 
                 $personsList[] = $person;
                 $manager->persist($person);      
@@ -72,16 +74,29 @@ class AppFixtures extends Fixture
         #Location
         $locationsList = [];
 
-        for ($i=1; $i <= 7 ; $i++) { 
-            
+        for ($i=1; $i <= 7 ; $i++) 
+        {
             $locationApi = $this->api->fetchDataLocationApi($i);
 
-            foreach ($locationApi['results'] as $value) {
-
+            foreach ($locationApi['results'] as $value) 
+            {
                 $location = new Location();
                 $location->setName($value['name']);
                 $location->setType($value['type']);
-                $location->setType($value['dimension']);
+                $location->setDimension($value['dimension']);
+
+                foreach ($personsList as $key => $person) 
+                {
+                    if ($location->getName() === $person->getLocationName()) 
+                    {
+                        $location->addLocationPerson($person);
+                    }
+
+                    if ($location->getName() === $person->getOriginName()) 
+                    {
+                        $location->addOriginPerson($person);
+                    }
+                }
     
                 $locationsList[] = $location;
                 $manager->persist($location);      
@@ -91,21 +106,29 @@ class AppFixtures extends Fixture
         #Episode
         $episodesList = [];
         
-        for ($i=1; $i <= 3 ; $i++) {
-
+        for ($i=1; $i <= 3 ; $i++) 
+        {
             $episodeApi = $this->api->fetchDataEpisodeApi($i);
 
-            foreach ($episodeApi['results'] as $value) {
-
+            foreach ($episodeApi['results'] as $value) 
+            {
                 $episode = new Episode();
                 $episode->setName($value['name']);
                 $episode->setAirDate($value['air_date']);
                 $episode->setEpisode($value['episode']);
+
+                foreach ($value['characters'] as $key => $data) 
+                {
+                    $idByExplode = explode("https://rickandmortyapi.com/api/character/", $data);
+                    $id = intval($idByExplode[1]);
+
+                    $episode->addPerson($personsList[$id - 1]);
+                }
                 
                 $episodesList[] = $episode;
                 $manager->persist($episode);      
             }
-        }
+        }      
 
         $manager->flush();
     }
