@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Service\CallApiService;
+use App\Repository\PersonRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,20 +13,10 @@ class HomeController extends AbstractController
     /**
      * @Route("/"), name="app_home", methods={"GET, POST"})
      */
-    public function index(CallApiService $api): Response
+    public function home(PersonRepository $personRepository): Response
     {
-        $apiEpisode = $api->fetchDataEpisodeApi();
-        $episodes = $apiEpisode['results'];
-        /*
-            $data = "https://rickandmortyapi.com/api/character/125";
-            $toto = explode("https://rickandmortyapi.com/api/character/", $data);
-
-            $tata = intval($toto);
-
-            dd($toto[1]);
-        */
-        return $this->render('home/index.html.twig', [
-            'episodes' => $episodes
+        return $this->render('home/header.html.twig', [
+            'persons' => $personRepository->findAllPersonLimitSQL(),
         ]);
     }
 }

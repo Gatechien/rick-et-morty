@@ -39,6 +39,18 @@ class PersonRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllPersonLimitSQL()
+    {
+        $sql = "SELECT * FROM person 
+                LIMIT 20";
+
+        $dbal = $this->getEntityManager()->getConnection();
+        $statement = $dbal->prepare($sql);
+        $result = $statement->executeQuery();
+
+        return $result->fetchAllAssociative();
+    }
+
 //    /**
 //     * @return Person[] Returns an array of Person objects
 //     */
