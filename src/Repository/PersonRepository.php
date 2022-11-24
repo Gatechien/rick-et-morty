@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Person;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,18 +38,6 @@ class PersonRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
-    }
-
-    public function findAllPersonLimitSQL()
-    {
-        $sql = "SELECT * FROM person 
-                LIMIT 20";
-
-        $dbal = $this->getEntityManager()->getConnection();
-        $statement = $dbal->prepare($sql);
-        $result = $statement->executeQuery();
-
-        return $result->fetchAllAssociative();
     }
 
 //    /**
