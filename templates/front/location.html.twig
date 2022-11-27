@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rick and Morty{% endblock %}
+
+{% block body %}
+<main>
+
+<h2 class="text-center my-5"> Total Locations : {{ locations.getTotalItemCount }} </h2>
+
+  <div class="card border-light container-sm p-5">
+  <table class="table table-hover">
+    <thead>
+      <tr class="text-primary">
+        <th scope="col">Name</th>
+        <th scope="col">Type</th>
+        <th scope="col">Dimension</th>
+      </tr>
+    </thead>
+    <tbody>
+  {% for location in locations %}
+      <tr>
+        <th scope="row">{{location.name}}</th>
+        <td>{{location.type}}</td>
+        <td>{{location.dimension}}</td>
+      </tr>
+  {% endfor %}
+    </tbody>
+  </table>
+  </div>
+
+  <nav class="d-flex justify-content-center mt-5 mb-3">
+    <ul class="pagination">
+      <li class="page-item">
+        {{ knp_pagination_render(locations) }}
+      </li>
+    </ul>
+  </nav>
+
+</main>
+{% endblock %}

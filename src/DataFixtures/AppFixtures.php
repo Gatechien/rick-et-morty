@@ -63,7 +63,11 @@ class AppFixtures extends Fixture
                 $person->setImage($value['image']);
                 $person->setSlug($this->slugger->slug($value['name'])->lower());
                 $person->setOriginName($value['origin']['name']);
-                $person->setLocationName($value['location']['name']);
+                if ($value['location']['name'] == true) {
+                    $person->setLocationName($value['location']['name']);
+                } else {
+                    $person->setLocationName('Unknown');
+                }
 
                 $personsList[] = $person;
                 $manager->persist($person);      

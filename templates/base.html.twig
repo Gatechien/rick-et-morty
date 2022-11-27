@@ -2,8 +2,8 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Rick et Morty{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <title>{% block title %}Rick and Morty{% endblock %}</title>
+        <link rel="icon" href="{{ asset('images/favicon.png') }}">
         <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
         {% block stylesheets %} {% endblock %}
         {% block javascripts %} {% endblock %}
@@ -11,35 +11,22 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary border-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Navbar</a>
+                <a href="{{ path('home') }}" class="">
+                    <img src="{{ asset('images/rick-et-morty-long.png') }}" height="38" alt="Logo Rick and Morty">
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarColor02">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                    <a class="nav-link active" href="#">Persons
-                        <span class="visually-hidden">(current)</span>
-                    </a>
+                    <li class="nav-item ms-2">
+                    <a class="nav-link" href="{{ path('person') }}">Persons</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
+                    <a class="nav-link" href="{{ path('episode') }}">Episode</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Separated link</a>
-                    </div>
+                    <a class="nav-link" href="{{ path('location') }}">Location</a>
                     </li>
                 </ul>
                 <form class="d-flex">
@@ -49,10 +36,10 @@
                 </div>
             </div>
         </nav>
-
+        {% block header %} {% endblock %}
         {% block body %} {% endblock %}
 
-        <footer class="footer text-center my-3">
+        <footer class="footer text-center my-5">
             <div class="container">
                 <div class="row">
                     <div class="mb-5 col-lg-12 mb-lg-0">

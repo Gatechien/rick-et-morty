@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rick and Morty{% endblock %}
+
+{% block body %}
+<main>
+
+<h2 class="text-center my-5"> Total Persons : {{ persons.getTotalItemCount }} </h2>
+
+  <section class="d-flex justify-content-center flex-wrap">
+  {% for person in persons %}
+    <div class="card border-light text-center mx-2 my-2 col-sm-4 col-lg-2 col-xl-2">
+      <h4 class="my-2">{{person.id}}</h4>
+        <img class="card-img-top" src="{{ person.image }}" alt="{{ person.name }}">
+      <div class="mt-3">
+        <p class="lead">{{person.name}}</p>
+      </div>
+      <a type="button" class="btn btn-light btn-sm" href="{{ path('show', {slug: person.slug}) }}">Voir</a>
+    </div>
+  {% endfor %}
+  </section>
+
+  <nav class="d-flex justify-content-center mt-5 mb-3">
+    <ul class="pagination">
+      <li class="page-item">
+        {{ knp_pagination_render(persons) }}
+      </li>
+    </ul>
+  </nav>
+
+</main>
+{% endblock %}
