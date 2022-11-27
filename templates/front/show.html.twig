@@ -5,34 +5,40 @@
 {% block body %}
 <main>
 
-    <h2 class="text-center my-5"> {{person.name}} </h2>
+  <h2 class="text-center my-5"> {{person.name}} </h2>
 
-<div class="d-flex justify-content-center flex-row">
-
+  <div class="d-flex justify-content-center flex-wrap">
     <div class="card border-light text-center">
-        <img class="card-img-top p-2" src="{{ person.image }}" alt="{{ person.name }}" style="max-width: 400px">
+      <img class="card-img-top p-2" src="{{ person.image }}" alt="{{ person.name }}" style="max-width: 400px">
+        <div class="mt-3 p-2">
+          <p class="lead">Name : <small class="text-primary">{{person.name}}</small></p>
+          <p class="lead">Status : <small class="text-primary">{{person.status}}</small></p>
+          <p class="lead">Species : <small class="text-primary">{{person.species}}</small></p>
+          {% if person.type == true %}
+            <p class="lead">Type : <small class="text-primary">{{person.type}}</small></p>
+          {% else %}
+            <p class="lead">Type : <small class="text-primary">Unknown</small></p>
+          {% endif %}
+          <p class="lead">Gender : <small class="text-primary">{{person.gender}}</small></p>
+          {% if person.location is not null %}
+            <p class="lead">Location : <small class="text-primary">{{person.location.name}}</small></p>
+          {% else %}
+            <p class="lead">Origin Location : <small class="text-primary">Unknown</small></p>
+          {% endif %}
+          {% if person.origin is not null %}
+            <p class="lead">Origin Location : <small class="text-primary">{{person.origin.name}}</small></p>
+          {% else %}
+            <p class="lead">Origin Location : <small class="text-primary">Unknown</small></p>
+          {% endif %}
+      </div>
+    </div>
+  </div>
 
-      <div class="mt-3 p-2">
-        <p class="lead">Name : <small class="text-primary">{{person.name}}</small></p>
-        <p class="lead">Status : <small class="text-primary">{{person.status}}</small></p>
-        <p class="lead">Species : <small class="text-primary">{{person.species}}</small></p>
-        {% if person.type == true %}
-          <p class="lead">Type : <small class="text-primary">{{person.type}}</small></p>
-        {% else %}
-          <p class="lead">Type : <small class="text-primary">Unknown</small></p>
-        {% endif %}
-        <p class="lead">Gender : <small class="text-primary">{{person.gender}}</small></p>
-        <p class="lead">Location : <small class="text-primary">{{person.location.name}}</small></p>
-        {% if person.origin is not null %}
-          <p class="lead">Origin Location : <small class="text-primary">{{person.origin.name}}</small></p>
-        {% else %}
-          <p class="lead">Origin Location : <small class="text-primary">Unknown</small></p>
-        {% endif %}
-    </div>
-    </div>
-    </div>
-    <section class="container-sm">
-          <table class="table table-hover">
+<h3 class="text-center my-5">Appears in episodes : </h3>
+
+  <section class="container-sm my-5">
+    <div class="card border-light text-center">
+      <table class="table table-hover">
         <thead>
           <tr class="text-primary">
             <th scope="col">Episode</th>
@@ -50,9 +56,8 @@
         {% endfor %}
         </tbody>
       </table>
-
+    </div>
   </section>
-
 
 </main>
 {% endblock %}

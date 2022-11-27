@@ -62,7 +62,11 @@ class AppFixtures extends Fixture
                 $person->setGender($value['gender']);
                 $person->setImage($value['image']);
                 $person->setSlug($this->slugger->slug($value['name'])->lower());
-                $person->setOriginName($value['origin']['name']);
+                if ($value['origin']['name'] == true) {
+                    $person->setOriginName($value['origin']['name']);
+                } else {
+                    $person->setOriginName('Unknown');
+                }
                 if ($value['location']['name'] == true) {
                     $person->setLocationName($value['location']['name']);
                 } else {
