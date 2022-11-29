@@ -5,7 +5,19 @@
 {% block body %}
 <main>
 
-<h2 class="text-center my-5"> Total Episodes : {{ episodes.getTotalItemCount }} </h2>
+  <div class="container my-5">
+    <a class="btn btn-outline-light" href="{{ path('home') }}"><i class="fa-solid fa-arrow-left me-2"></i> Back</a>
+  </div>
+
+  <h2 class="text-center my-5"> Total Episodes : {{ episodes.getTotalItemCount }} </h2>
+
+  <nav class="d-flex justify-content-center mt-5 mb-3">
+    <ul class="pagination">
+      <li class="page-item">
+        {{ knp_pagination_render(episodes) }}
+      </li>
+    </ul>
+  </nav>
 
   <div class="card border-light container-sm p-5">
   <table class="table table-hover">

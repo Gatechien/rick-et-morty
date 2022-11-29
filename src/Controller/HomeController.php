@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Person;
+use App\Form\SearchPersonType;
 use App\Repository\EpisodeRepository;
 use App\Repository\LocationRepository;
 use App\Repository\PersonRepository;
@@ -20,7 +21,7 @@ class HomeController extends AbstractController
      * 
      * @return Response
      */
-    public function home():Response
+    public function home()
     {
         return $this->render('front/home.html.twig');
     }
